@@ -1,6 +1,7 @@
 import pyphen
 import time
 import spacy
+from itertools import chain, combinations
 from nltk.corpus import cmudict
 
 cmudic = cmudict.dict()
@@ -57,19 +58,41 @@ def getAbbreviatedSentences(sentence, patterns):
             if dep in sentenceDependencies:
                 firstCompound = sentenceDependencies.index(dep)
                 lastCompound = firstCompound
-                while sentenceDependencies[lastCompound - 1] == 'compound':
+                while lastCompound > -1 and sentenceDependencies[lastCompound - 1] == 'compound':
                     lastCompound -= 1
                 for compound in sentenceText[lastCompound:firstCompound]:
                     newSentence.append((compound, 'compound'))
                 newSentence.append((sentenceText[sentenceDependencies.index(dep)], dep))
             else:
-                newSentence = []
                 break
         if len(newSentence) >= 3:
             newSentences.append(newSentence)
     return newSentences
 
-abbreviatedSentences = getAbbreviatedSentences(sentence, getPatterns())
-print(sentence)
-for sentence in abbreviatedSentences:
-    print(sentence)
+def getCompounds(abbreviatedSentences):
+    compounds = []
+    for sentence in abbreviatedSentences:
+        for word in sentence:
+            if word[1] == 'compound' and word[0] not in compounds:
+                compounds.append(word[0])
+    return compounds
+
+
+def findPowerSet(abbreviatedSentences):
+    xs = list(abbreviatedSentences)
+    return list(chain.from_iterable(combinations(xs,n) for n in range(len(xs)+1)))
+
+def getAllSentencePermutations(abbreviatedSentences):
+    newPermutations = []
+    compoundsPowerSet = findPowerSet(getCompounds(abbreviatedSentences))
+    for sentence in abbreviatedSentences:
+        for compoundsSet in compoundsPowerSet:
+            print(compoundsSet)
+            for compound in compoundsSet:
+                print(compound)
+
+
+abbreviatedSentences = getAbbreviatedSentences(inputSentence, getPatterns())
+getAllSentencePermutations(abbreviatedSentences)
+# for sentence in abbreviatedSentences:
+#     print(sentence)

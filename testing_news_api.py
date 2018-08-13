@@ -2,7 +2,7 @@ from newsapi import NewsApiClient
 import requests
 import api_key
 newsapi = NewsApiClient(api_key=api_key.key)
-writeFile = open('output3.txt', 'w')
+writeFile = open('output2.txt', 'w')
 newsSources = 'abc-news, al-jazeera-english, associated-press, bbc-news, \
                bleacher-report, bloomberg, business-insider, buzzfeed, \
                cbs-news, cnbc, cnn, daily-mail, espn, financial-times, \

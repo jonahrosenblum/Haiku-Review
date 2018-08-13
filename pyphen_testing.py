@@ -31,8 +31,8 @@ def isHaiku(sentence):
 
 def getPatterns():
     firstPattern = ['nsubj']
-    secondPattern = ['ccomp', 'pcomp', 'ROOT']
-    thirdPattern = ['dobj', 'pobj']
+    secondPattern = ['ccomp', 'pcomp']
+    thirdPattern = ['dobj']
     patterns = []
     for p1 in firstPattern:
         for p2 in secondPattern:
@@ -96,3 +96,30 @@ abbreviatedSentences = getAbbreviatedSentences(inputSentence, getPatterns())
 getAllSentencePermutations(abbreviatedSentences)
 # for sentence in abbreviatedSentences:
 #     print(sentence)
+
+# Working Data structure
+# {
+#     'nsubj': {
+#         'text': 'Pitt',
+#         'syll': 1,
+#         'comp': {
+#             'Brad': 1
+#         }
+#     },
+#     'verb': {
+#         'text': 'Loaned',
+#         'syll': 1,
+#         'comp': {
+#         }
+#     },
+#     'dobj': {
+#         'text': 'million',
+#         'syll': 2,
+#         'comp': {
+#             '8': 1,
+#         }
+#     }
+# }
+
+# bareTotal = for word in dict += syll
+

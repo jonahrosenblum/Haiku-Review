@@ -79,7 +79,7 @@ class Article(object):
         Requires: syllables is an integer
         Effects: returns all valid phrases with specified number of syllables
         """
-
+        
     def countSyllables(self, word):
         """
         Requires: word is a string (can be a hyphenated word)

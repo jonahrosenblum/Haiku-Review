@@ -1,12 +1,14 @@
 import pyphen
 import time
 import spacy
+from article import Article
 from itertools import chain, combinations
 from nltk.corpus import cmudict
 
 cmudic = cmudict.dict()
-pydic = pyphen.Pyphen(lang='en')
-nlp = spacy.load('en_core_web_sm')
+pyphendic = pyphen.Pyphen(lang='en')
+spacyNLP = spacy.load('en_core_web_sm')
+loadedDictionaries = {'cmudic':cmudic, 'pyphendic':pyphendic, 'spacyNLP':spacyNLP}
 
 # stackoverflow.com/questions/405161
 def countSyllabels(word):
@@ -44,10 +46,9 @@ def getPatterns():
 inputSentence = 'Brad Pitt says he loaned $8 million to Angelina Jolie, paid $1.3 million in child support'
 
 def getAbbreviatedSentences(sentence, patterns):
-    doc = nlp(sentence)
+    doc = spacyNLP(sentence)
     sentenceText = [token.text for token in doc]
     sentenceDependencies = [token.dep_ for token in doc]
-    sentencePOS = [token.pos_ for token in doc]
     # print(sentenceText)
     # print(sentenceDependencies)
     # print(sentencePOS)
@@ -92,11 +93,12 @@ def getAllSentencePermutations(abbreviatedSentences):
                 print(compound)
 
 
-abbreviatedSentences = getAbbreviatedSentences(inputSentence, getPatterns())
-getAllSentencePermutations(abbreviatedSentences)
+# abbreviatedSentences = getAbbreviatedSentences(inputSentence, getPatterns())
+# getAllSentencePermutations(abbreviatedSentences)
 # for sentence in abbreviatedSentences:
 #     print(sentence)
-
+articleTest = Article('ruter', 'Brad Pitt says he loaned $8 million to Angelina Jolie, paid $1.3 million in child support', 'www.urmom', loadedDictionaries)
+print(articleTest.generateValidDictionaries(articleTest.generateTemplates()))
 # Working Data structure
 # {
 #     'nsubj': {

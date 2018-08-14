@@ -1,4 +1,4 @@
 api_key.py
 .DS_Store
 .vscode
-extra_code.py
+extra_code.py__pycache__/

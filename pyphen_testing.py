@@ -97,8 +97,10 @@ def getAllSentencePermutations(abbreviatedSentences):
 # getAllSentencePermutations(abbreviatedSentences)
 # for sentence in abbreviatedSentences:
 #     print(sentence)
-articleTest = Article('ruter', 'Brad Pitt says he loaned $8 million to Angelina Jolie, paid $1.3 million in child support', 'www.urmom', loadedDictionaries)
-print(articleTest.generateValidDictionaries(articleTest.generateTemplates()))
+articleTest = Article('ruter', 'Minnesota Police Officer spends 8 million', 'www.urmom', loadedDictionaries)
+#print(articleTest.titleDependencies)
+#print(articleTest.generateValidDictionaries(articleTest.generateTemplates()))
+print(articleTest.generateValidPhrases(articleTest.generateValidDictionaries(articleTest.generateTemplates()), 5))
 # Working Data structure
 # {
 #     'nsubj': {

@@ -25,16 +25,20 @@ class Article(object):
                   - the "best" phrase containing the specified number of syllables
                   - an empty list
         """
+        # Get all possible phrases that have the specified number of syllables
         possiblePhrases = self.generateValidPhrases(self.generateValidDictionaries(self.generateTemplates()), syllables)
+        # If there is a phrase(s) that works, return the first one
         if possiblePhrases:
             return possiblePhrases[0]
+        # Otherwise return an empty list
         return possiblePhrases
 
     # Private methods
     def generateTemplates(self):
         """
         Requires: none
-        Effects: returns list of template objects, each containing the data to a valid sentence
+        Effects: returns list of template objects, each containing the data 
+        to a valid sentence
         """
         firstPattern = ['nsubj']
         secondPattern = ['ccomp', 'pcomp']
@@ -52,24 +56,41 @@ class Article(object):
         Requires: none
         Effects: returns list of valid template dictionaries
         """
+        # Holds all the template dictionaries that will be returned
         templateDictionaries = []
+        # Iterate through each generated template
         for template in templates:
+            # This is a specific dictionary type for our purposes, see README 
+            # for better layout explanation
             templateDictionary = {}
+            # Iterate through each dependency in the dictionary
             for dep in template:
+                # Checks to see if the dependency is in the list of dependencies in the title
                 if dep in self.titleDependencies:
+                    # depText is the word associated with the dependency
                     depText = self.titleText[self.titleDependencies.index(dep)]
+                    # Creates the basic outline of the templateDictionary
                     templateDictionary[dep] = {'text':depText,
                                                'syllables':self.countSyllables(depText),
                                                'compounds':[]}
+                    # The first 'compound' is the index of the dependency
                     firstCompound = self.titleDependencies.index(dep)
+                    # Start the last compound index at the first compound
                     lastCompound = firstCompound
+                    # Finds the last 'compound' word attached to a key 
+                    # dependency in the sentence
                     while lastCompound > -1 and self.titleDependencies[lastCompound - 1] == 'compound':
                         lastCompound -= 1
+                    # Adds each compound in the list to the template dictionary 
+                    # under the dependency they modify
                     for compound in self.titleText[lastCompound:firstCompound]:
                         templateDictionary[dep]['compounds'].append((compound, self.countSyllables(compound)))
+                # If one of the dependencies in the template isn't in the sentence, 
+                # the template doesn't match so break
                 else:
                     break
-
+            # If all three dependencies are in the template, add it to the 
+            # list of dictionaries
             if len(templateDictionary) == 3:
                 templateDictionaries.append(templateDictionary)
         return templateDictionaries

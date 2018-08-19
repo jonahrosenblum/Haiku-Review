@@ -27,11 +27,20 @@ class Article(object):
         """
         # Get all possible phrases that have the specified number of syllables
         possiblePhrases = self.generateValidPhrases(self.generateValidDictionaries(self.generateTemplates()), syllables)
-        # If there is a phrase(s) that works, return the first one
-        if possiblePhrases:
-            return possiblePhrases[0]
+        # Goes through each possible phrase, to find the one with the most words
+        bestPhrase = []
+        for phrase in possiblePhrases:
+            # If phrase has more words, make it the best phrase
+            if len(phrase) > len(bestPhrase):
+                bestPhrase = phrase
+        # Gets the deps of the 'best' phrase
+        bestPhraseDependencies = [token.dep_ for token in self.spacyNLP(' '.join(bestPhrase))]
+        # We don't want phrases that don't end in direct objects, this checks that
+        if bestPhraseDependencies and bestPhraseDependencies[-1] == 'dobj':
+            return bestPhrase
         # Otherwise return an empty list
-        return possiblePhrases
+        return []
+        
 
     # Private methods
     def generateTemplates(self):
@@ -41,7 +50,7 @@ class Article(object):
         to a valid sentence
         """
         firstPattern = ['nsubj']
-        secondPattern = ['ccomp', 'pcomp']
+        secondPattern = ['pcomp','ccomp', 'ROOT']
         thirdPattern = ['dobj']
         templates = []
         # Creates every possible arrangement of the patterns
@@ -58,6 +67,8 @@ class Article(object):
         """
         # Holds all the template dictionaries that will be returned
         templateDictionaries = []
+        # List of dependencies that modify words (we look for these)
+        compoundDeps = ['compound', 'amod', 'appos', 'nmod', 'partmod']
         # Iterate through each generated template
         for template in templates:
             # This is a specific dictionary type for our purposes, see README 
@@ -79,7 +90,7 @@ class Article(object):
                     lastCompound = firstCompound
                     # Finds the last 'compound' word attached to a key 
                     # dependency in the sentence
-                    while lastCompound > -1 and self.titleDependencies[lastCompound - 1] == 'compound':
+                    while lastCompound > -1 and self.titleDependencies[lastCompound - 1] in compoundDeps:
                         lastCompound -= 1
                     # Adds each compound in the list to the template dictionary 
                     # under the dependency they modify
@@ -155,6 +166,7 @@ class Article(object):
                                 elif self.countPhraseSyllables(potentialPhrase) > validSyllables:
                                     # If phrase can never be valid, go to next compound
                                     potentialPhrase.remove(subsequentCompound)
+                                    
         return validPhrases
         
     def countSyllables(self, word):

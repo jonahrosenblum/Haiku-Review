@@ -27,6 +27,8 @@ class Article(object):
         """
         # Get all possible phrases that have the specified number of syllables
         possiblePhrases = self.generateValidPhrases(self.generateValidDictionaries(self.generateTemplates()), syllables)
+        # Words we don't want in titles because they don't make a lot of sense
+        badWords = ['say', 'says', 'you']
         # Goes through each possible phrase, to find the one with the most words
         bestPhrase = []
         for phrase in possiblePhrases:
@@ -36,7 +38,8 @@ class Article(object):
         # Gets the deps of the 'best' phrase
         bestPhraseDependencies = [token.dep_ for token in self.spacyNLP(' '.join(bestPhrase))]
         # We don't want phrases that don't end in direct objects, this checks that
-        if bestPhraseDependencies and bestPhraseDependencies[-1] == 'dobj':
+        if (bestPhraseDependencies and bestPhraseDependencies[-1] == 'dobj' 
+           and not any(badWord in bestPhrase for badWord in badWords)):
             return bestPhrase
         # Otherwise return an empty list
         return []
@@ -157,6 +160,8 @@ class Article(object):
                         depTermInner = (depDictionaryInner['text'], depDictionaryInner['syllables'])
                         for subsequentCompound in depDictionaryInner['compounds']:
                             subsequentCount += 1
+                            # Checks to make sure that the word you are trying 
+                            # to add comes after the firstCompound in the list
                             if subsequentCount > firstCount:
                                 potentialPhrase.insert(potentialPhrase.index(depTermInner), subsequentCompound)
                                 if self.countPhraseSyllables(potentialPhrase) == validSyllables:
@@ -166,7 +171,7 @@ class Article(object):
                                 elif self.countPhraseSyllables(potentialPhrase) > validSyllables:
                                     # If phrase can never be valid, go to next compound
                                     potentialPhrase.remove(subsequentCompound)
-                                    
+
         return validPhrases
         
     def countSyllables(self, word):
@@ -174,13 +179,21 @@ class Article(object):
         Requires: word is a string (can be a hyphenated word)
         Effects: returns number of syllables in word
         """
-        try:
-            return [len(list(y for y in x if y[-1].isdigit())) for x in self.cmudic[word.lower()]][0]
-        except:
-            syllabels = 0
-            for word in word.split('-'):
-                syllabels += self.pyphendic.inserted(word).count('-') + 1
-            return syllabels
+        # This checks to see if a word is a acronym like MLK, NASA, etc.
+        if not (word.isupper() and len(word) > 1):
+            # Check if the word is in the cmudic from nltk
+            try:
+                return [len(list(y for y in x if y[-1].isdigit())) for x in self.cmudic[word.lower()]][0]
+            # If it's not in the cmu dic, use the pyphen library instead
+            except:
+                syllables = 0
+                # This accounts for hyphenated words
+                for word in word.split('-'):
+                    syllables += self.pyphendic.inserted(word).count('-') + 1
+                return syllables
+        else:
+            # If it's a acronym, syllables are the same as the number of chars
+            return len(word)
     
     def countPhraseSyllables(self, sentence):
         return sum([word[1] for word in sentence])

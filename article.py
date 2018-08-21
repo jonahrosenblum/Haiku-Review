@@ -28,7 +28,7 @@ class Article(object):
         # Get all possible phrases that have the specified number of syllables
         possiblePhrases = self.generateValidPhrases(self.generateValidDictionaries(self.generateTemplates()), syllables)
         # Words we don't want in titles because they don't make a lot of sense
-        badWords = ['say', 'says', 'you']
+        badWords = ['say', 'says', 'you', '#', 'we']
         # Goes through each possible phrase, to find the one with the most words
         bestPhrase = []
         for phrase in possiblePhrases:
@@ -38,6 +38,8 @@ class Article(object):
         # Gets the deps of the 'best' phrase
         bestPhraseDependencies = [token.dep_ for token in self.spacyNLP(' '.join(bestPhrase))]
         # We don't want phrases that don't end in direct objects, this checks that
+        # but it needs every word to be lower case for it to work
+        bestPhrase = [word.lower() for word in bestPhrase]
         if (bestPhraseDependencies and bestPhraseDependencies[-1] == 'dobj' 
            and not any(badWord in bestPhrase for badWord in badWords)):
             return bestPhrase

@@ -15,7 +15,7 @@ loadedDictionaries = {'cmudic':cmudic, 'pyphendic':pyphendic, 'spacyNLP':spacyNL
 
 newsapi = NewsApiClient(api_key=api_key.key)
 # writeFile3 = open('input.txt', 'w')
-randomHaikus = open('randomHaikus3.txt','w')
+randomHaikus = open('randomHaikus4.txt','w')
 newsSources = 'abc-news, al-jazeera-english, associated-press, bbc-news, \
                bleacher-report, bloomberg, business-insider, \
                cbs-news, cnbc, cnn, espn, financial-times, \
@@ -27,7 +27,7 @@ newsSources = 'abc-news, al-jazeera-english, associated-press, bbc-news, \
 best5lines = []
 best7lines = []
 for source in newsSources.split(', '):
-    topHeadlines = newsapi.get_top_headlines(sources=source)
+    topHeadlines = newsapi.get_top_headlines(sources=source, page_size=100)
     for articleInfo in topHeadlines['articles']:
         # writeFile3.write(str(articleInfo) + '\n')
         article = Article(articleInfo['source']['name'], articleInfo['title'], articleInfo['url'], loadedDictionaries)

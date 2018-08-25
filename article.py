@@ -1,22 +1,20 @@
 class Article(object):
     # Public methods
-    def __init__(self, sourceName, title, url, loadedDictionaries):
+    def __init__(self, title, loadedObjects):
         """
         Requires: sourceName, title, and url are strings
         Effects: creates new instance of article
         """
         # Initalizing member variables
-        self.sourceName = sourceName
         self.title = title
-        self.url = url
         # Initalizing dictionaries for nltk, pyphen, and spaCy
-        self.cmudic = loadedDictionaries['cmudic']
-        self.pyphendic = loadedDictionaries['pyphendic']
-        self.spacyNLP = loadedDictionaries['spacyNLP']
+        self.cmudic = loadedObjects['cmudic']
+        self.pyphendic = loadedObjects['pyphendic']
+        self.spaCyNLP = loadedObjects['spaCyNLP']
         # Creating text and dependency lists
-        doc = self.spacyNLP(title)
-        self.titleText = [token.text for token in doc]
-        self.titleDependencies = [token.dep_ for token in doc]
+        phrase = self.spaCyNLP(title)
+        self.titleText = [token.text for token in phrase]
+        self.titleDependencies = [token.dep_ for token in phrase]
 
     def getBest(self, syllables):
         """
@@ -36,7 +34,7 @@ class Article(object):
             if len(phrase) > len(bestPhrase):
                 bestPhrase = phrase
         # Gets the deps of the 'best' phrase
-        bestPhraseDependencies = [token.dep_ for token in self.spacyNLP(' '.join(bestPhrase))]
+        bestPhraseDependencies = [token.dep_ for token in self.spaCyNLP(' '.join(bestPhrase))]
         # We don't want phrases that don't end in direct objects, this checks that
         # but it needs every word to be lower case for it to work
         bestPhrase = [word.lower() for word in bestPhrase]
@@ -46,6 +44,12 @@ class Article(object):
         # Otherwise return an empty list
         return []
         
+    def totalEntities(self, haikuLine):
+        """
+        Requires: haikuLine is a list of strings
+        Effects: returns total amount of entities of line        
+        """   
+        return len(self.spaCyNLP(' '.join(haikuLine)).ents)
 
     # Private methods
     def generateTemplates(self):
@@ -198,4 +202,9 @@ class Article(object):
             return len(word)
     
     def countPhraseSyllables(self, sentence):
+        """
+        Requires: sentence is a list of tuples where the second value in the 
+        pair is an integer
+        Effects: returns total amount of entities of line 
+        """
         return sum([word[1] for word in sentence])

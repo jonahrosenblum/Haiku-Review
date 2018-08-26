@@ -2,7 +2,6 @@ from newsapi import NewsApiClient
 from apiKey import newsAPIKey
 from article import Article
 from haiku import Haiku
-import newsapi
 import pyphen
 import spacy
 from nltk.corpus import cmudict
@@ -26,7 +25,7 @@ def getHaikuLines(loadedObjects):
     Effects: Returns a dictionary containing two lists containing news headlines
     of lengths 5 and 7 syllables long.
     """
-    newsApi = newsapi.NewsApiClient(api_key=newsAPIKey)
+    newsApi = NewsApiClient(api_key=newsAPIKey)
     # A list of all news sources we get our headlines from, subject to change
     newsSources = ['abc-news', 'al-jazeera-english', 'associated-press', 
                    'bbc-news', 'bleacher-report', 'bloomberg', 

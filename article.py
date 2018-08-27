@@ -55,8 +55,12 @@ class Article(object):
     def generateTemplates(self):
         """
         Requires: none
-        Effects: returns list of template objects, each containing the data 
-        to a valid sentence
+        Effects: returns list of template lists, each containing the 
+        dependencies that make up a "valid" sentence.
+        Notes: The function operates like this because we wanted a customizable
+        set of patterns that we could change at any time by altering the lists
+        of first, second, and third patterns. Right now it seems dumb to do it 
+        this way, but it alllows for easier change in the future.
         """
         firstPattern = ['nsubj']
         secondPattern = ['pcomp','ccomp', 'ROOT']
@@ -85,7 +89,8 @@ class Article(object):
             templateDictionary = {}
             # Iterate through each dependency in the dictionary
             for dep in template:
-                # Checks to see if the dependency is in the list of dependencies in the title
+                # Checks to see if the dependency is in the list of dependencies 
+                # in the title
                 if dep in self.titleDependencies:
                     # depText is the word associated with the dependency
                     depText = self.titleText[self.titleDependencies.index(dep)]
@@ -189,6 +194,7 @@ class Article(object):
         if not (word.isupper() and len(word) > 1):
             # Check if the word is in the cmudic from nltk
             try:
+                # https://stackoverflow.com/questions/405161/
                 return [len(list(y for y in x if y[-1].isdigit())) for x in self.cmudic[word.lower()]][0]
             # If it's not in the cmu dic, use the pyphen library instead
             except:

@@ -26,8 +26,8 @@ Pyphen==0.9.4
 newsapi-python==0.2.3
 
 ## Authors
-Envisioned and Layed Out by Jonah Rosenblum and Dustin Brown  
-Written by Jonah Rosenblum
+Envisioned by Jonah Rosenblum and Dustin Brown  
+Written and Developed by Jonah Rosenblum
 
 ## License
 This project is licensed under the MIT License - see the LICENSE.md file for details

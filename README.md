@@ -1,6 +1,6 @@
 # The Haiku Review
 
-A Twitter bot that tweets haikus of what's going on in the news.
+A twitter bot that tweets haikus of what's going on in the news.
 
 ## How it Works
 - Uses the [newsapi-python](https://github.com/mattlisiv/newsapi-python) package
@@ -15,7 +15,7 @@ to get news headlines from lots of current articles.
 To use this project: 
 1. Clone it to your machine.
 2. Download the necesary packages (versions listed below).
-3. Get API keys for tweepy and newsapi and add them to a file you will create called apiKey.py, name the variables so that they line up with the code. The [@haikureviewlive](https://twitter.com/haikureviewlive) file with api keys is not included in this repository for obvious reasons.
+3. Get API keys for tweepy and newsapi and add them to a file you will create called apiKey.py, name the variables so that they line up with the code. We did not include out apiKey file for obvious reasons.
 4. Run it in terminal with `python3 sendTweet.py` 
 
 These are the currently used version of all requires packages:  
@@ -26,9 +26,8 @@ Pyphen==0.9.4
 newsapi-python==0.2.3
 
 ## Authors
-Envisioned by Jonah Rosenblum and Dustin Brown  
-Written/Developed by Jonah Rosenblum  
-Contact us at <jonaher@umich.edu> and <dustinbr@umich.edu> if you have questions.
+Envisioned and Layed Out by Jonah Rosenblum and Dustin Brown  
+Written by Jonah Rosenblum
 
 ## License
 This project is licensed under the MIT License - see the LICENSE.md file for details

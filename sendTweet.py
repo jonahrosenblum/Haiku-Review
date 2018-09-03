@@ -16,9 +16,26 @@ def sendTweet():
     
     # Create a good haiku and convert it to a text form, then tweet it out.
     tweet = createHaiku().getHaikuText()
-    tweepyAPI.update_status(tweet)
+    print("--- %s seconds ---" % (time.time() - start_time))
+    print(tweet)
+    if input('tweet?\n>') == 'y':
+        tweepyAPI.update_status(tweet)
+    else:
+        file = open('recentlyUsedLinks.txt','r')
+        recentlyUsedLinks = eval(file.read())
+        print(recentlyUsedLinks)
+        linesToKeep = str(input('lines to keep\n>'))
+        for line in sorted(linesToKeep, reverse = True):
+            recentlyUsedLinks.pop(int(line) - 1)
+        file.close()
+        open("recentlyUsedLinks.txt",'w').close()
+        file = open("recentlyUsedLinks.txt",'w')
+        file.write(str(recentlyUsedLinks))
+        file.close()
+
         
     # Print to console the time it took to run
-    print("--- %s seconds ---" % (time.time() - start_time))
+    
+
 
 sendTweet()

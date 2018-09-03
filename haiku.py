@@ -42,7 +42,7 @@ class Haiku(object):
         for debugging purposes
         """
         return (' '.join(self.lineOneTitle).title() + '\n' + ' '.join(self.lineTwoTitle).title()
-        + '\n' + ' '.join(self.lineThreeTitle).title() + '\n\n' + self.lineOneUrl + '\n' 
+        + '\n' + ' '.join(self.lineThreeTitle).title() + '\n#haiku\n' + self.lineOneUrl + '\n' 
         + self.lineTwoUrl + '\n' + self.lineThreeUrl)
         
     def debugHaiku(self):

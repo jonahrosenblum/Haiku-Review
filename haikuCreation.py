@@ -113,7 +113,7 @@ def generateBestHaiku(headlines):
 
 def updateRecentlyUsedLinks(bestHaiku):
     file = open('recentlyUsedLinks.txt','r+')
-    recentlyUsedLinks = ([bestHaiku.lineOneUrl, bestHaiku.lineTwoUrl, bestHaiku.lineThreeUrl] + eval(file.read()))[:12]
+    recentlyUsedLinks = ([bestHaiku.lineOneUrl, bestHaiku.lineTwoUrl, bestHaiku.lineThreeUrl] + eval(file.read()))[:21]
     file.seek(0)
     file.write(str(recentlyUsedLinks))
     file.close()

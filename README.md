@@ -2,7 +2,7 @@
 
 A Twitter bot that tweets haikus of what's going on in the news.
 
-## How it works
+## How it Works
 - Uses the [newsapi-python](https://github.com/mattlisiv/newsapi-python) package
 that utiilizes [an api](https://newsapi.org/docs/) that pulls from various major news sources
 to get news headlines from lots of current articles.

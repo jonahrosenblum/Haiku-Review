@@ -1,6 +1,6 @@
 # The Haiku Review
 
-A twitter bot that tweets haikus of what's going on in the news.
+A bot that tweets out a summary of news headlines in the form of a haiku.
 
 ## How it Works
 - Uses the [newsapi-python](https://github.com/mattlisiv/newsapi-python) package

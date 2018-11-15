@@ -33,5 +33,5 @@ Written and Developed by Jonah Rosenblum
 This project is licensed under the MIT License - see the LICENSE.md file for details
 
 ## Fair Warning
-Sometimes, in an attempt to shorten a sentence, a resulting phrase that is tweeted out may convey a message that is untrue, inflamatory, or offensive to some. Please do not assume that any line of a tweeted haiku is a true statement and read all articles linked at the bottom of each tweet for more accurate details about each news story. This is an *unintended* effect of running the program, and anyone using this code should be aware of this and include a similar warning if they chose to use or alter this code.
+Sometimes, in an attempt to shorten a sentence, a resulting phrase that is tweeted out may convey a message that is untrue, inflamatory, or offensive to some. Please do not assume that any line of a tweeted haiku is a true statement and read all articles linked at the bottom of each tweet for more accurate details about each news story. This is an *unintended* effect of running the program, and anyone using this code should be aware of this and include a similar warning if they choose to use or alter this code.
 
